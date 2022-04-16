@@ -1,0 +1,61 @@
+#!/bin/bash
+
+Cost=0
+
+MAKE=$(whiptail --title "Where every car is a steal" --menu "Choose a car:" 25 78 8 \
+        "Camry" "25000" \
+        "F-150" "40000" 3>&1 1>&2 2>&3)
+if [ $MAKE == "Camry" ]; then
+	Cost=$(($Cost +25000))
+	else
+        	if [ $MAKE == "F-150" ]; then
+                	Cost=$(($Cost +40000))
+		fi
+fi
+
+COLOR=$(whiptail --title "Where every car is a steal" --radiolist \
+	"Choose a color:" 25 78 8 \
+        "Black" "Free with cost of car" OFF \
+        "Blue" "Free with cost of car" OFF 3>&1 1>&2 2>&3)
+if [[ $MAKE == "Camry" && $COLOR == "Black" ]]; then
+	display -resize 1280x720 /home/schooliscool/Git/'Black Camry.jpg'
+fi
+	if [[ $MAKE == "Camry" && $COLOR == "Blue" ]]; then
+		display -resize 1280x720 /home/schooliscool/Git/'Blue Camry.jpg'
+	fi
+		if [[ $MAKE == "F-150" && $COLOR == "Black" ]]; then
+			display -resize 1280x720 /home/schooliscool/Git/'Black F-150.jpg'
+		fi
+			if [[ $MAKE == "F-150" && $COLOR == "Blue" ]]; then
+				display -resize 1280x720 /home/schooliscool/Git/'Blue F-150.jpg'
+			fi
+
+UPGRADES=$(whiptail --title "Where every car is a steal" --checklist \
+	"Choose additional upgrades:" 25 78 8 \
+        "SunRoof" "1000" OFF \
+        "Spoiler" "1000" OFF \
+        "Pinstripe" "2000" OFF \
+        "Grill" "1500" OFF 3>&1 1>&2 2>&3)
+
+if [[ $UPGRADES =~ "SunRoof" ]]; then
+	Cost=$(($Cost +1000))
+fi
+	if [[ $UPGRADES =~ "Spoiler" ]]; then
+			Cost=$(($Cost +1000))
+	fi
+		if [[ $UPGRADES =~ "Pinstripe" ]]; then
+			Cost=$(($Cost +2000))
+		fi
+			if [[ $UPGRADES =~ "Grill" ]]; then
+				Cost=$(($Cost +1500))
+			fi
+
+FREE=$(whiptail --title "Where every car is a steal" --checklist \
+	"Upgrades we are providing for free:" 25 78 8 \
+        "Airbags" "FREE" ON \
+        "XM" "FREE" ON \
+        "Bluetooth" "FREE" ON \
+        "Floormats" "FREE" ON \
+	"Moonroof" "Not Included" OFF 3>&1 1>&2 2>&3)
+echo "You chose a ${COLOR[@]} ${MAKE[@]} with the following upgrades: ${UPGRADES[@]}, including these free upgrades: ${FREE[@]}"
+echo "The total price is $Cost"
